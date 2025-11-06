@@ -1,0 +1,36 @@
+{
+  "name": "Create GitHub Repository",
+  "summary": "Create a new GitHub repository using gh CLI and push code",
+  "steps": [
+    {
+      "text": "Open terminal application and navigate to project directory",
+      "action": "Launch terminal and execute cd command",
+      "timestamp": 0.0,
+      "confidence": 0.95
+    },
+    {
+      "text": "Create GitHub repository using CLI with 'gh repo create myproject --public'",
+      "action": "Execute gh repo create command",
+      "timestamp": 10.0,
+      "confidence": 0.98
+    },
+    {
+      "text": "Add remote origin URL to local git repository",
+      "action": "Execute git remote add origin command",
+      "timestamp": 20.0,
+      "confidence": 0.95
+    },
+    {
+      "text": "Push local changes to GitHub main branch",
+      "action": "Execute git push -u origin main command",
+      "timestamp": 25.0,
+      "confidence": 0.92
+    }
+  ],
+  "metadata": {
+    "start_time": "2025-11-06T16:00:00",
+    "end_time": "2025-11-06T16:05:00",
+    "duration": 300.0,
+    "platform": "Darwin"
+  }
+}
