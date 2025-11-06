@@ -24,7 +24,7 @@ setup(
     description="Transform workflows into Claude Skills automatically",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/pack2skill",
+    url="https://github.com/jmanhype/pack2skill",
     packages=find_packages(exclude=["tests", "tests.*"]),
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -1,0 +1,19 @@
+include README.md
+include LICENSE
+include requirements.txt
+include QUICKSTART.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include PYPI_PUBLISHING.md
+include IMPLEMENTATION_SUMMARY.md
+include COMPLETION_REPORT.md
+
+recursive-include pack2skill *.py
+recursive-include docs *.md
+recursive-include examples *.py *.json
+recursive-include tests *.py
+
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.so

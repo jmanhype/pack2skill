@@ -1,0 +1,88 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pack2skill"
+version = "0.1.0"
+description = "Transform workflows into Claude Skills automatically"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Pack2Skill Team", email = "contact@pack2skill.dev"}
+]
+keywords = ["claude", "claude-skills", "workflow-automation", "skill-generation", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Multimedia :: Video :: Capture",
+]
+
+dependencies = [
+    "transformers>=4.35.0",
+    "torch>=2.0.0",
+    "pillow>=10.0.0",
+    "opencv-python>=4.8.0",
+    "pytesseract>=0.3.10",
+    "pynput>=1.7.6",
+    "pyyaml>=6.0",
+    "openai>=1.0.0",
+    "anthropic>=0.7.0",
+    "ffmpeg-python>=0.2.0",
+    "click>=8.1.0",
+    "tqdm>=4.65.0",
+    "python-dateutil>=2.8.2",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jmanhype/pack2skill"
+Documentation = "https://github.com/jmanhype/pack2skill#readme"
+Repository = "https://github.com/jmanhype/pack2skill"
+Issues = "https://github.com/jmanhype/pack2skill/issues"
+Changelog = "https://github.com/jmanhype/pack2skill/releases"
+
+[project.scripts]
+pack2skill = "pack2skill.cli.main:cli"
+
+[tool.setuptools]
+packages = ["pack2skill", "pack2skill.cli", "pack2skill.core", "pack2skill.core.recorder", "pack2skill.core.analyzer", "pack2skill.core.generator", "pack2skill.core.utils", "pack2skill.quality", "pack2skill.team"]
+
+[tool.setuptools.package-data]
+pack2skill = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=pack2skill --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
