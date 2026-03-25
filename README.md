@@ -1,95 +1,84 @@
-# Pack to Claude Skill Pipeline
+# pack2skill
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/v/release/jmanhype/pack2skill)](https://github.com/jmanhype/pack2skill/releases)
-[![GitHub issues](https://img.shields.io/github/issues/jmanhype/pack2skill)](https://github.com/jmanhype/pack2skill/issues)
-[![GitHub stars](https://img.shields.io/github/stars/jmanhype/pack2skill)](https://github.com/jmanhype/pack2skill/stargazers)
+Records user workflows (screen video + interaction events) and generates Claude Skills from the captured data. Uses vision-language models to extract steps from video frames, then formats them into the Claude Skill directory structure.
 
-A comprehensive system for capturing workflows and automatically generating Claude Skills from recorded user interactions.
+## Status
 
-## Overview
+Alpha (v0.1.0). Published on PyPI. The recording and generation pipeline is implemented. Quality scoring and team features are partially built. Ecosystem/marketplace integration (Phase 4) is not implemented.
 
-This pipeline transforms real-world workflows into Claude Skills through four progressive phases:
-
-1. **Phase 1 (MVP)**: Recording & Basic Skill Generation
-2. **Phase 2**: Improving Skill Quality (confidence, descriptions, robustness)
-3. **Phase 3**: Collaboration & Deployment (team features)
-4. **Phase 4**: Ecosystem Integration and Marketplace
-
-## Features
-
-- **Workflow Recording**: Capture screen video and user interaction events
-- **Vision-Language Analysis**: Extract meaningful steps from video frames
-- **Automated Skill Generation**: Create Claude Skills with proper structure and metadata
-- **Confidence Scoring**: Rate the reliability of each generated step
-- **Team Collaboration**: Version control, sharing, and deployment features
-- **Ecosystem Integration**: Connect with Claude's skill marketplace and MCP plugins
-
-## Quick Start
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Record a workflow
-python -m pack2skill record --output my_workflow.json
-
-# Generate a skill
-python -m pack2skill generate my_workflow.json --output ./skills/
-
-# Install the skill
-python -m pack2skill install ./skills/my-skill/
-```
-
-## Project Structure
+## Architecture
 
 ```
 pack2skill/
-├── core/                 # Core functionality
-│   ├── recorder/        # Workflow recording (screen + events)
-│   ├── analyzer/        # Video frame analysis and captioning
-│   ├── generator/       # Skill generation logic
-│   └── utils/           # Shared utilities
-├── quality/             # Phase 2: Quality improvements
-│   ├── confidence.py    # Confidence scoring
-│   ├── description.py   # Description optimization
-│   └── robustness.py    # Edge case handling
-├── team/                # Phase 3: Team features
-│   ├── versioning.py    # Version control integration
-│   ├── deployment.py    # Skill deployment
-│   └── testing.py       # Testing framework
-├── ecosystem/           # Phase 4: Ecosystem integration
-│   ├── marketplace.py   # Marketplace features
-│   └── integrations.py  # MCP and plugin support
-├── cli/                 # Command-line interface
-└── tests/               # Test suite
+  cli/           # Click CLI (record, generate, install commands)
+  core/
+    recorder/    # Screen recording (FFmpeg) + keyboard/mouse event capture
+    analyzer/    # Frame extraction, vision-language captioning
+    generator/   # Skill template generation and formatting
+    utils/       # Shared utilities
+  quality/       # Confidence scoring, description optimization, robustness checks
+  team/          # Version control integration (versioning.py only)
 ```
 
-## Requirements
+### Modules
+
+| Package | Files | Purpose |
+|---|---|---|
+| `core/recorder` | 3 | Screen capture (FFmpeg), keyboard/mouse events, workflow session management |
+| `core/analyzer` | 3 | Frame extraction, vision-language captioning, frame analysis |
+| `core/generator` | 2 | Skill generation logic, output formatting |
+| `quality` | 3 | Confidence scoring, description optimization, edge case robustness |
+| `team` | 1 | Version control integration |
+| `cli` | 1 | Click CLI entry point |
+
+## Usage
+
+```bash
+pip install pack2skill
+
+# Record a workflow
+pack2skill record --output my_workflow.json
+
+# Generate a skill from recording
+pack2skill generate my_workflow.json --output ./skills/
+
+# Install generated skill
+pack2skill install ./skills/my-skill/
+```
+
+## Dependencies
 
 - Python 3.9+
-- FFmpeg (for screen recording)
-- CUDA-capable GPU (recommended for vision models)
+- FFmpeg (screen recording)
+- transformers, torch (vision-language models)
+- opencv-python, pillow (frame processing)
+- pytesseract (OCR)
+- pynput (input capture)
+- anthropic, openai (LLM integration)
+- click (CLI)
 
-## Documentation
+A CUDA-capable GPU is recommended for vision model inference.
 
-See the [docs/](docs/) directory for detailed documentation:
+## Tests
 
-- [Installation Guide](docs/installation.md)
-- [Recording Guide](docs/recording.md)
-- [Skill Generation](docs/generation.md)
-- [Team Setup](docs/team-setup.md)
-- [API Reference](docs/api-reference.md)
+```bash
+pytest tests/
+```
 
-## Contributing
+1 test file (`test_generator.py`). Test coverage is minimal.
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+## Docs
 
-## License
+The `docs/` directory contains guides for installation, recording, generation, team setup, and API reference.
 
-MIT License - see [LICENSE](LICENSE) for details.
+## Limitations
 
-## Acknowledgments
-
-Built for the Claude Skills ecosystem by Anthropic.
+- Phase 1 (recording + generation) is the only functional pipeline
+- Phase 2 quality modules exist but are not integrated into the main CLI flow
+- Phase 3 team features are stubs (only `versioning.py` has code)
+- Phase 4 ecosystem/marketplace integration does not exist
+- No CI/CD pipeline configured
+- Test coverage is 1 file; no integration or e2e tests
+- Screen recording depends on FFmpeg and platform-specific screen capture
+- Vision model inference requires significant GPU memory
+- The `ecosystem/` directory referenced in the original README does not exist in the repository
